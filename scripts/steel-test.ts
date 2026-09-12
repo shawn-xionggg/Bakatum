@@ -31,7 +31,10 @@ async function main() {
   }
 }
 
-main().catch(() => {
-  console.error("Steel test failed. Check your key and Steel dashboard.");
+main().catch((error) => {
+  console.error(
+    "Steel test failed:",
+    error instanceof Error ? error.message : String(error)
+  );
   process.exitCode = 1;
 });
