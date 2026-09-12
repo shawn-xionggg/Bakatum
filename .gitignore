@@ -42,3 +42,7 @@ next-env.d.ts
 
 
 envs.local
+
+
+
+.venv/
