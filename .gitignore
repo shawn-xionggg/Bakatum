@@ -42,3 +42,5 @@ next-env.d.ts
 
 
 envs.local
+
+waterloo_auth.json
