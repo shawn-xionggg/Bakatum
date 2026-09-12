@@ -738,3 +738,235 @@
         font-size: 28px;
     }
 }
+
+/* =========================================
+   FLOATING GRAPES
+   ========================================= */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Container for all grapes */
+
+.floatingGrapes {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+
+/* Individual grapes */
+
+.grape {
+    position: absolute;
+
+    width: 55px;
+    height: 55px;
+
+    object-fit: contain;
+
+    opacity: 0.12;
+
+    animation-name: floatGrape;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+
+/* Individual positions */
+
+.grape1 {
+    top: 12%;
+    left: 5%;
+
+    width: 70px;
+
+    animation-duration: 7s;
+}
+
+
+.grape2 {
+    top: 65%;
+    left: 8%;
+
+    width: 45px;
+
+    animation-duration: 9s;
+    animation-delay: -2s;
+}
+
+
+.grape3 {
+    top: 20%;
+    left: 25%;
+
+    width: 35px;
+
+    animation-duration: 8s;
+    animation-delay: -4s;
+}
+
+
+.grape4 {
+    top: 75%;
+    left: 35%;
+
+    width: 60px;
+
+    animation-duration: 10s;
+    animation-delay: -6s;
+}
+
+
+.grape5 {
+    top: 10%;
+    right: 8%;
+
+    width: 60px;
+
+    animation-duration: 8s;
+    animation-delay: -3s;
+}
+
+
+.grape6 {
+    top: 60%;
+    right: 5%;
+
+    width: 45px;
+
+    animation-duration: 11s;
+    animation-delay: -5s;
+}
+
+
+.grape7 {
+    top: 35%;
+    right: 25%;
+
+    width: 35px;
+
+    animation-duration: 7s;
+    animation-delay: -1s;
+}
+
+
+.grape8 {
+    top: 85%;
+    right: 30%;
+
+    width: 30px;
+
+    animation-duration: 9s;
+    animation-delay: -7s;
+}
+
+.grape9 {
+    top: 45%;
+    left: 2%;
+    width: 30px;
+    animation-duration: 8s;
+    animation-delay: -3s;
+}
+
+.grape10 {
+    top: 88%;
+    left: 18%;
+    width: 50px;
+    animation-duration: 11s;
+    animation-delay: -5s;
+}
+
+.grape11 {
+    top: 5%;
+    left: 42%;
+    width: 28px;
+    animation-duration: 7s;
+    animation-delay: -1s;
+}
+
+.grape12 {
+    top: 50%;
+    left: 28%;
+    width: 42px;
+    animation-duration: 10s;
+    animation-delay: -7s;
+}
+
+.grape13 {
+    top: 40%;
+    right: 3%;
+    width: 32px;
+    animation-duration: 9s;
+    animation-delay: -4s;
+}
+
+.grape14 {
+    top: 92%;
+    right: 12%;
+    width: 55px;
+    animation-duration: 8s;
+    animation-delay: -2s;
+}
+
+.grape15 {
+    top: 30%;
+    right: 40%;
+    width: 27px;
+    animation-duration: 12s;
+    animation-delay: -6s;
+}
+
+.grape16 {
+    top: 70%;
+    right: 42%;
+    width: 38px;
+    animation-duration: 9s;
+    animation-delay: -8s;
+}
+
+
+/* Floating animation */
+
+@keyframes floatGrape {
+
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-18px) rotate(5deg);
+    }
+
+    50% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    75% {
+        transform: translateY(18px) rotate(-5deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+}
+
+
+/* Keep actual website content above grapes */
+
+.heroContent {
+    position: relative;
+    z-index: 2;
+}
