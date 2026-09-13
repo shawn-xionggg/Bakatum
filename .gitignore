@@ -1,0 +1,9 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+.devin/mcp_config.local.json
+waterloo_auth.json
+syla.db
+downloads/
