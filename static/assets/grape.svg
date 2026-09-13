@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <radialGradient id="berry" cx="35%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#c9e88f"/>
+      <stop offset="45%" stop-color="#9ccf63"/>
+      <stop offset="100%" stop-color="#5f9e31"/>
+    </radialGradient>
+    <linearGradient id="leafg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7cb342"/>
+      <stop offset="100%" stop-color="#3f7222"/>
+    </linearGradient>
+  </defs>
+  <!-- stem -->
+  <path d="M60 8 C58 20 56 26 52 34" fill="none" stroke="#6d4c2f" stroke-width="4" stroke-linecap="round"/>
+  <!-- leaf -->
+  <path d="M62 12 C74 4 92 8 98 20 C88 30 70 30 62 20 Z" fill="url(#leafg)"/>
+  <path d="M62 14 C74 10 88 12 96 20" fill="none" stroke="#2e5216" stroke-width="1.2" opacity=".5"/>
+  <!-- berries -->
+  <g fill="url(#berry)" stroke="#4a7d26" stroke-width="1">
+    <circle cx="44" cy="40" r="11"/>
+    <circle cx="62" cy="38" r="11"/>
+    <circle cx="78" cy="44" r="11"/>
+    <circle cx="34" cy="56" r="11"/>
+    <circle cx="52" cy="56" r="11"/>
+    <circle cx="70" cy="58" r="11"/>
+    <circle cx="86" cy="60" r="10"/>
+    <circle cx="42" cy="72" r="11"/>
+    <circle cx="60" cy="74" r="11"/>
+    <circle cx="76" cy="74" r="10"/>
+    <circle cx="50" cy="88" r="10"/>
+    <circle cx="66" cy="90" r="10"/>
+    <circle cx="58" cy="102" r="9"/>
+  </g>
+  <!-- shine -->
+  <g fill="#e9f7cf" opacity=".75">
+    <ellipse cx="40" cy="36" rx="3.2" ry="2" transform="rotate(-30 40 36)"/>
+    <ellipse cx="58" cy="34" rx="3.2" ry="2" transform="rotate(-30 58 34)"/>
+    <ellipse cx="48" cy="52" rx="3.2" ry="2" transform="rotate(-30 48 52)"/>
+    <ellipse cx="38" cy="68" rx="3" ry="1.8" transform="rotate(-30 38 68)"/>
+    <ellipse cx="56" cy="70" rx="3" ry="1.8" transform="rotate(-30 56 70)"/>
+  </g>
+</svg>

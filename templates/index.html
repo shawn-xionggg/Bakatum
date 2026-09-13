@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>syla — your syllabus, decoded</title>
+  <link rel="icon" href="{{ url_for('static', filename='assets/grape.svg') }}" type="image/svg+xml" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <main class="container">
+    <header class="site-header">
+      <div class="brand"><img src="{{ url_for('static', filename='assets/grape.svg') }}" alt="" class="logo-mark" /><h1>syla</h1><a class="back-link" href="/">&larr; landing</a></div>
+      <p class="tagline">Drop your syllabus, get a prioritized assignment list and researched resources.</p>
+    </header>
+
+    <section class="card settings-card">
+      <details>
+        <summary>API keys <span id="keys-summary" class="muted"></span></summary>
+        <div class="field">
+          <label for="anthropic-key">Anthropic API key <span id="anthropic-status" class="key-status"></span></label>
+          <input type="password" id="anthropic-key" placeholder="sk-ant-…" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="steel-key">Steel API key — enables the live browser view <span id="steel-status" class="key-status"></span></label>
+          <input type="password" id="steel-key" placeholder="from app.steel.dev/settings/api-keys" autocomplete="off" />
+        </div>
+        <button type="button" id="save-keys">Save keys</button>
+        <span id="keys-status" class="muted"></span>
+      </details>
+    </section>
+
+    <section class="card upload-card">
+      <form id="upload-form">
+        <div class="field">
+          <label for="file">Syllabus (.pdf, .html, .txt)</label>
+          <label class="dropzone" for="file">
+            <input type="file" id="file" name="file" accept=".pdf,.html,.htm,.txt,.md" />
+            <span class="dropzone-icon">&#8682;</span>
+            <span class="dropzone-text" id="dropzone-text">Drop a syllabus or click to browse</span>
+          </label>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="start_date">Window start</label>
+            <input type="date" id="start_date" name="start_date" />
+          </div>
+          <div class="field">
+            <label for="end_date">Window end</label>
+            <input type="date" id="end_date" name="end_date" />
+          </div>
+        </div>
+
+        <button type="submit" id="preview-btn">Preview extracted text</button>
+      </form>
+      <p id="status" class="status"></p>
+
+      <div id="preview-panel" class="hidden">
+        <label for="preview-text">Review before sending to AI</label>
+        <textarea id="preview-text" rows="10"></textarea>
+        <button type="button" id="extract-btn">Looks good — extract assignments</button>
+      </div>
+    </section>
+
+    <section id="review" class="hidden">
+      <h2 id="course-name"></h2>
+      <p id="window-note" class="muted"></p>
+      <div id="review-list"></div>
+      <button type="button" id="save-tasks">Save to dashboard</button>
+      <span id="save-status" class="muted"></span>
+    </section>
+
+    <section id="dashboard">
+      <div class="dashboard-head">
+        <h2>Dashboard</h2>
+        <button type="button" id="learn-sync-btn" class="ghost-btn">Sync Waterloo Learn</button>
+      </div>
+      <p id="learn-status" class="muted"></p>
+      <div class="progress-row">
+        <div id="grapes" class="grapes"></div>
+        <span id="progress-count" class="muted"></span>
+      </div>
+
+      <div class="card session-card">
+        <div class="field-row" style="align-items:flex-end">
+          <div class="field" style="margin-bottom:0">
+            <label for="minutes">Available study time (min)</label>
+            <input type="number" id="minutes" min="5" max="480" step="5" value="30" />
+          </div>
+          <button type="button" id="recommend-btn">What should I do?</button>
+        </div>
+        <div id="recommendation" class="hidden">
+          <h3 id="rec-title"></h3>
+          <p id="rec-reason" class="muted"></p>
+          <button type="button" id="start-btn">Start session</button>
+        </div>
+        <div id="active-session" class="hidden">
+          <h3 id="session-title"></h3>
+          <p class="muted"><span id="session-timer">0:00</span> elapsed · <span id="session-planned"></span> planned</p>
+          <div class="session-actions">
+            <button type="button" id="more-time-btn" class="ghost-btn">+15 min</button>
+            <button type="button" id="skip-btn" class="ghost-btn">Skip</button>
+            <button type="button" id="done-btn">Done</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters">
+        <select id="filter-course"><option value="">All courses</option></select>
+        <select id="filter-status">
+          <option value="">All statuses</option>
+          <option value="todo">To do</option>
+          <option value="in_progress">In progress</option>
+          <option value="done">Done</option>
+        </select>
+      </div>
+
+      <div id="task-list"></div>
+      <p id="empty-dashboard" class="muted hidden">No tasks yet — upload a syllabus above.</p>
+    </section>
+  </main>
+
+
+
+  <template id="review-tpl">
+    <div class="card review-item">
+      <div class="review-grid">
+        <input class="r-title" type="text" />
+        <input class="r-due" type="date" />
+        <select class="r-type">
+          <option>exam</option><option>quiz</option><option>project</option><option>paper</option>
+          <option>homework</option><option>lab</option><option>reading</option><option>participation</option><option>other</option>
+        </select>
+        <select class="r-importance"><option>high</option><option>medium</option><option>low</option></select>
+        <input class="r-hours" type="number" min="0" step="0.5" title="estimated hours" />
+        <label class="r-skip"><input type="checkbox" /> skip</label>
+      </div>
+      <p class="r-desc muted"></p>
+    </div>
+  </template>
+
+  <template id="task-tpl">
+    <article class="card assignment">
+      <div class="assignment-head">
+        <h3 class="title"></h3>
+        <div class="badges">
+          <span class="badge urgency"></span>
+          <span class="badge importance"></span>
+          <span class="badge type"></span>
+        </div>
+      </div>
+      <p class="due muted"></p>
+      <p class="desc"></p>
+      <p class="meta muted"></p>
+      <ul class="subtasks"></ul>
+      <div class="links"></div>
+      <div class="task-actions">
+        <label class="check-inline"><input type="checkbox" class="done-check" /> done</label>
+        <label class="check-inline"><input type="checkbox" class="submitted-check" /> submitted</label>
+        <button class="research-btn" type="button">Find links / research</button>
+      </div>
+      <div class="research-panel hidden">
+        <p class="research-status muted">Researching…</p>
+        <div class="live-view"></div>
+        <div class="research-body"></div>
+      </div>
+    </article>
+  </template>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

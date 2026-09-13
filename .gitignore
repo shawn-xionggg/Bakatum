@@ -44,3 +44,14 @@ next-env.d.ts
 envs.local
 
 waterloo_auth.json
+
+nul
+
+syla.db
+
+.*
+
+
+__pycache__
+
+.gitignore

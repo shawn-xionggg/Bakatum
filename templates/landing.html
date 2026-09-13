@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>syla — your syllabus, decoded</title>
+  <link rel="icon" href="{{ url_for('static', filename='assets/grape.svg') }}" type="image/svg+xml" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='landing.css') }}" />
+</head>
+<body>
+  <canvas id="grape-canvas" aria-hidden="true"></canvas>
+  <div id="sprite-layer" aria-hidden="true"></div>
+
+  <header class="land-nav">
+    <a class="land-brand" href="/"><img src="{{ url_for('static', filename='assets/grape.svg') }}" alt="" class="land-brand-mark" />syla</a>
+    <a class="land-nav-cta" href="/app">open app &rarr;</a>
+  </header>
+
+  <main class="land-scroll">
+
+    <section class="land-section hero">
+      <div class="hero-inner">
+        <p class="hero-kicker">a syllabus companion that actually reads</p>
+        <h1 class="hero-title">syla</h1>
+        <p class="hero-tag">
+          Drop a syllabus. Get a prioritized hit-list of every assignment —
+          scored by urgency and grade stake — plus one-click research.
+        </p>
+        <a class="hero-cta" href="/app">Start organizing <span>&rarr;</span></a>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">
+        <span class="scroll-hint-text">scroll</span>
+        <span class="scroll-hint-line"></span>
+      </div>
+    </section>
+
+    <section class="land-section act">
+      <div class="act-panel">
+        <p class="act-index">01</p>
+        <h2 class="act-title">Your syllabus,<br />decoded.</h2>
+        <p class="act-body">
+          Upload a PDF, HTML, or TXT syllabus and syla pulls out every gradable
+          item — exams, quizzes, labs, papers — with resolved due dates, grade
+          weights, and effort estimates.
+        </p>
+      </div>
+    </section>
+
+    <section class="land-section act act-band">
+      <div class="marquee" data-dir="left">
+        <div class="marquee-track">
+          <span>Upload &middot; Extract &middot; Prioritize &middot; Research &middot; Upload &middot; Extract &middot; Prioritize &middot; Research &middot;&nbsp;</span>
+          <span>Upload &middot; Extract &middot; Prioritize &middot; Research &middot; Upload &middot; Extract &middot; Prioritize &middot; Research &middot;&nbsp;</span>
+        </div>
+      </div>
+      <div class="act-panel">
+        <p class="act-index">02</p>
+        <h2 class="act-title">Know what<br />matters first.</h2>
+        <p class="act-body">
+          Every item is scored deterministically — overdue, critical, high,
+          medium, low — so your next move is never a guess. The ripest tasks
+          rise to the top.
+        </p>
+      </div>
+    </section>
+
+    <section class="land-section act act-band">
+      <div class="marquee" data-dir="right">
+        <div class="marquee-track">
+          <span>Due dates &middot; Grade weights &middot; Study sessions &middot; Live research &middot; Due dates &middot; Grade weights &middot; Study sessions &middot;&nbsp;</span>
+          <span>Due dates &middot; Grade weights &middot; Study sessions &middot; Live research &middot; Due dates &middot; Grade weights &middot; Study sessions &middot;&nbsp;</span>
+        </div>
+      </div>
+      <div class="act-panel">
+        <p class="act-index">03</p>
+        <h2 class="act-title">Research on<br />autopilot.</h2>
+        <p class="act-body">
+          One click spins up a browsing agent that hunts down study resources —
+          watch it work in a live browser view, then keep the best links on the
+          task.
+        </p>
+      </div>
+    </section>
+
+    <section class="land-section finale">
+      <div class="act-panel finale-panel">
+        <h2 class="act-title">Pick the bunch.<br />Do the work.</h2>
+        <p class="act-body">
+          Timed study sessions, subtask tracking, and a grape for every task
+          you crush.
+        </p>
+        <a class="hero-cta" href="/app">Open syla <span>&rarr;</span></a>
+      </div>
+      <footer class="land-foot">
+        <span>syla &mdash; syllabus &rarr; priorities</span>
+        <span class="land-foot-sep">&middot;</span>
+        <span>grown locally on your machine</span>
+      </footer>
+    </section>
+
+  </main>
+
+  <noscript>
+    <style>#grape-canvas { display: none; }</style>
+  </noscript>
+  <script type="module" src="{{ url_for('static', filename='landing.js') }}"></script>
+</body>
+</html>

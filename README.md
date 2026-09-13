@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# syla
 
-## Getting Started
+Upload a university syllabus (PDF, HTML, or TXT) and get back a prioritized
+assignment list — each item labeled by **urgency** (computed from the due date)
+and **importance** (grade stake) — then research relevant resources for any
+assignment with one click.
 
-First, run the development server:
+## How it works
+
+1. **Upload** — `POST /api/upload` extracts text from the syllabus and asks
+   Claude (Anthropic API, structured tool-use output) to return every gradable
+   item with resolved due dates, type, grade weight, estimated effort, and topics.
+2. **Scoring** — `scoring.py` deterministically labels urgency
+   (overdue / critical ≤2d / high ≤7d / medium ≤14d / low / unscheduled) and a
+   combined priority score, so labels are consistent and reproducible.
+3. **Picks** — the backend flags up to 3 `recommended` assignments that are
+   inside your window and actually doable (participation/credit-only items are
+   excluded). Each card shows a bullet-point plan from the extraction pass.
+4. **Research** — `POST /api/research` starts a background job. With
+   `STEEL_API_KEY` it creates a live [Steel](https://steel.dev) cloud-browser
+   session driven by Playwright over CDP; the response `viewer_url` is embedded
+   in the page so you can watch the agent browse in real time. Claude's tool
+   loop (`web_search`, `browse_url`) returns a step plan plus curated links via
+   `GET /api/research/<job_id>` polling. Without a Steel key it falls back to
+   plain HTTP with no live view.
+
+## Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+python -m venv .venv
+.venv\Scripts\activate          # Windows
+# source .venv/bin/activate     # macOS/Linux
+pip install -r requirements.txt
+copy .env.example .env          # add ANTHROPIC_API_KEY (and optionally STEEL_API_KEY)
+python app.py
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:5000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Devin / MCP integration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`.devin/mcp_config.json` wires the [Steel MCP server](https://github.com/steel-dev/steel-mcp-server)
+into this project's Devin environment (`npx -y github:steel-dev/steel-mcp-server`).
+Put your key in `.devin/mcp_config.local.json` (gitignored) so the agent can
+browse the web while developing.
 
-## Learn More
+## Layout
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| File | Role |
+|---|---|
+| `app.py` | Flask routes: `/`, `/api/upload`, `/api/research`, `/api/health` |
+| `parsing.py` | PDF (pypdf) / HTML (BeautifulSoup) / TXT → text |
+| `extraction.py` | Claude structured extraction of assignments |
+| `scoring.py` | Urgency, importance, priority scoring |
+| `research.py` | Claude + Steel tool-use research loop |
+| `templates/`, `static/` | Single-page frontend (vanilla JS) |
