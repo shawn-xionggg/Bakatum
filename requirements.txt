@@ -7,3 +7,4 @@ beautifulsoup4>=4.12
 python-dotenv>=1.0
 httpx>=0.27
 supabase>=2.31
+gunicorn>=21; sys_platform != "win32"
